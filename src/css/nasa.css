@@ -1,0 +1,15 @@
+.containerPOTD {
+    display: flex;
+    gap: 20px;
+    margin-top: 40px;
+    justify-content: center;
+}
+
+#text {
+    max-width: 600px;
+}
+
+#picSource img {
+    width: 300px;
+    height: auto;
+}
