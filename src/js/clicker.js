@@ -57,6 +57,7 @@ setInterval(() => {
     if (auto_clicks > 0) {
         counter_num += auto_clicks;
         updateDisplay();
+        getRandomColor();
     }
 }, time_var);
 
