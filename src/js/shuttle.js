@@ -78,6 +78,7 @@ function update() {
       ) {
         rocks.splice(i, 1);
         bullets.splice(j, 1);
+        if (rocks.length === 0) stopGame();
         break;
       }
     }
@@ -117,11 +118,18 @@ function generateRocks() {
   }
 }
 
+let running = true;
 function gameLoop() {
+  if (!running) return;
+
   update();
   draw();
 
   requestAnimationFrame(gameLoop);
 }
+
+function stopGame() {
+  running = false;
+  bullets = [];
+}
 gameLoop();
-console.log();
