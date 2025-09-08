@@ -11,26 +11,40 @@ const shuttleHeight = 200;
 
 let keys = {};
 let bullets = [];
+let rocks = [];
+const numRocks = Math.round(Math.random() * 20);
+
+generateRocks();
 
 document.addEventListener("keydown", (e) => {
   keys[e.key] = true;
-});
-document.addEventListener("keyup", (e) => {
-  keys[e.key] = false;
-});
 
-function update() {
-  if (keys["w"]) shuttleY -= 2;
-  if (keys["s"]) shuttleY += 2;
-  if (keys["a"]) shuttleX -= 2;
-  if (keys["d"]) shuttleX += 2;
-  if(keys[" "]) {
+  if(e.key === " ") {
     bullets.push({
           x: shuttleX + shuttleWidth / 2 - 2,
           y: shuttleY,
           speed: 4
     });
   }
+});
+document.addEventListener("keyup", (e) => {
+  keys[e.key] = false;
+});
+
+function isColliding(a, b) {
+  return (
+    a.x < b.x + b.size &&
+    a.x + a.width > b.x &&
+    a.y < b.y + b.size &&
+    a.y + a.height > b.y
+  );
+}
+
+function update() {
+  if (keys["w"]) shuttleY -= 2;
+  if (keys["s"]) shuttleY += 2;
+  if (keys["a"]) shuttleX -= 2;
+  if (keys["d"]) shuttleX += 2;
 
   shuttleX = Math.max(10, Math.min(canvas.width - shuttleWidth, shuttleX));
   shuttleY = Math.max(10, Math.min(canvas.height - shuttleHeight, shuttleY));
@@ -44,6 +58,30 @@ function update() {
       bullets.splice(i, 1);
     }
   }
+
+  for (let rock of rocks) {
+    rock.y += rock.speed;
+
+    if (rock.y > canvas.height) {
+      rock.y = 0;
+      rock.x = Math.random() * (canvas.width/2);
+    }
+  }
+
+  for (let i = rocks.length - 1; i >= 0; i--) {
+    for (let j = bullets.length - 1; j >= 0; j--) {
+      if (
+        isColliding(
+          { x: bullets[j].x, y: bullets[j].y, width: 4, height: 10 },
+          { x: rocks[i].x, y: rocks[i].y, size: rocks[i].size }
+        )
+      ) {
+        rocks.splice(i, 1);
+        bullets.splice(j, 1);
+        break;
+      }
+    }
+  }
 }
 
 function draw() {
@@ -55,12 +93,28 @@ function draw() {
     ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, 4, 4);
   }
 
+  ctx.fillStyle = "blue";
+  for (let rock of rocks) {
+    ctx.fillRect(rock.x, rock.y, rock.size, rock.size);
+  }
+
   ctx.drawImage(shuttle, shuttleX, shuttleY, shuttleWidth, shuttleHeight);
 
   ctx.fillStyle = "red";
   bullets.forEach((bullet) => {
     ctx.fillRect(bullet.x, bullet.y, 4, 10);
   });
+}
+
+function generateRocks() {
+  for (let i = 0; i < numRocks; i++) {
+    rocks.push({
+      x: Math.random() * (canvas.width/2),
+      y: Math.random() * canvas.height - 500,
+      size: 50,
+      speed: Math.random() * 0.8
+    });
+  }
 }
 
 function gameLoop() {
@@ -70,3 +124,4 @@ function gameLoop() {
   requestAnimationFrame(gameLoop);
 }
 gameLoop();
+console.log();
