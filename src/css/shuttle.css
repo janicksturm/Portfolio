@@ -1,0 +1,14 @@
+#gameCanvas {
+    padding: 0;
+    margin: auto;
+    margin-top: 20px;
+    display: block;
+    background-color: black;
+}
+
+#picRef {
+    display: block;
+    text-align: center;
+    margin-top: 5px;
+    font-size: 11px;
+}
