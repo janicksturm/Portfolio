@@ -120,7 +120,10 @@ function generateRocks() {
 
 let running = true;
 function gameLoop() {
-  if (!running) return;
+  if (!running) {
+    drawGameOver();
+    return;
+  }
 
   update();
   draw();
@@ -131,5 +134,15 @@ function gameLoop() {
 function stopGame() {
   running = false;
   bullets = [];
+}
+
+function drawGameOver() {
+  ctx.fillStyle = "rgba(0,0,0,0.7)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "white";
+  ctx.font = "48px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2 - 50);
 }
 gameLoop();
