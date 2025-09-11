@@ -17,6 +17,10 @@ let bullets = [];
 let rocks = [];
 const numRocks = Math.round(Math.random() * 20);
 
+let running = true;
+let start = null;
+let timer = 0;
+
 generateRocks();
 
 document.addEventListener("keydown", (e) => {
@@ -50,6 +54,17 @@ function displayRockCounter() {
   ctx.font = "24px Arial";
   ctx.textAlign = "left";
   ctx.fillText(`Rocks Remaining: ${rocks.length}`, 20, 30);
+}
+
+// Displays the passed time in seconds
+function displayTimer() {
+  if (running) {
+    timer = Math.floor((Date.now() - start) / 1000);
+  }
+  ctx.fillStyle = "white";
+  ctx.font = "24px Arial";
+  ctx.textAlign = "right";
+  ctx.fillText(`Timer: ${timer}s`, canvas.width - 20, 30);
 }
 
 // Updates the position of the shuttle, bullets, and rocks
@@ -126,6 +141,7 @@ function draw() {
     ctx.fillRect(bullet.x, bullet.y, 4, 10);
   });
   displayRockCounter();
+  displayTimer();
 }
 
 function randomArea(min, max) {
@@ -145,8 +161,8 @@ function generateRocks() {
 }
 
 // Updates the game state and renders the game
-let running = true;
 function gameLoop() {
+  if (start === null) start = Date.now();
   if (!running) {
     drawGameOver();
     return;
@@ -173,5 +189,7 @@ function drawGameOver() {
   ctx.font = "48px Arial";
   ctx.textAlign = "center";
   ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2 - 50);
+  ctx.font = "32px Arial";
+  ctx.fillText(`Time: ${timer}s`, canvas.width / 2, canvas.height / 2 + 10);
 }
 gameLoop();
