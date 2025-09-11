@@ -53,10 +53,10 @@ function displayRockCounter() {
 
 // Updates the position of the shuttle, bullets, and rocks
 function update() {
-  if (keys["w"]) shuttleY -= 2;
-  if (keys["s"]) shuttleY += 2;
-  if (keys["a"]) shuttleX -= 2;
-  if (keys["d"]) shuttleX += 2;
+  if (keys["w"]) shuttleY -= 5;
+  if (keys["s"]) shuttleY += 5;
+  if (keys["a"]) shuttleX -= 5;
+  if (keys["d"]) shuttleX += 5;
 
   // Keep shuttle within canvas bounds
   shuttleX = Math.max(10, Math.min(canvas.width - shuttleWidth, shuttleX));
@@ -113,7 +113,7 @@ function draw() {
     ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, 4, 4);
   }
 
-  
+
   for (let rock of rocks) {
     ctx.drawImage(rockImg, rock.x, rock.y, rock.size, rock.size);
   }
