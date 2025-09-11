@@ -124,12 +124,16 @@ function draw() {
   displayRockCounter();
 }
 
+function randomArea(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
 // Generates rocks at random positions
 function generateRocks() {
   for (let i = 0; i < numRocks; i++) {
     rocks.push({
-      x: Math.random() * (canvas.width/2),
-      y: Math.random() * canvas.height - 500,
+      x: randomArea(300, canvas.width-300),
+      y: randomArea(10, canvas.height - 350),
       size: 50,
       speed: Math.random() * 0.8
     });
