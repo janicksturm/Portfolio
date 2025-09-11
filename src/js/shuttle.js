@@ -31,6 +31,7 @@ document.addEventListener("keyup", (e) => {
   keys[e.key] = false;
 });
 
+// Checks for collision between two rectangles
 function isColliding(a, b) {
   return (
     a.x < b.x + b.size &&
@@ -40,25 +41,37 @@ function isColliding(a, b) {
   );
 }
 
+function displayRockCounter() {
+  ctx.fillStyle = "white";
+  ctx.font = "24px Arial";
+  ctx.textAlign = "left";
+  ctx.fillText(`Rocks Remaining: ${rocks.length}`, 20, 30);
+}
+
+// Updates the position of the shuttle, bullets, and rocks
 function update() {
   if (keys["w"]) shuttleY -= 2;
   if (keys["s"]) shuttleY += 2;
   if (keys["a"]) shuttleX -= 2;
   if (keys["d"]) shuttleX += 2;
 
+  // Keep shuttle within canvas bounds
   shuttleX = Math.max(10, Math.min(canvas.width - shuttleWidth, shuttleX));
   shuttleY = Math.max(10, Math.min(canvas.height - shuttleHeight, shuttleY));
 
+  // Move bullets up the screen
   for (let bullet of bullets) {
     bullet.y -= bullet.speed;
   }
 
+  // Remove bullets that go off the screen
   for (let i = bullets.length - 1; i >= 0; i--) {
     if (bullets[i].y < 0) {
       bullets.splice(i, 1);
     }
   }
 
+  // Move rocks down the screen
   for (let rock of rocks) {
     rock.y += rock.speed;
 
@@ -68,6 +81,7 @@ function update() {
     }
   }
 
+  // Check for collisions between bullets and rocks
   for (let i = rocks.length - 1; i >= 0; i--) {
     for (let j = bullets.length - 1; j >= 0; j--) {
       if (
@@ -85,6 +99,8 @@ function update() {
   }
 }
 
+//generates stars, shuttle, rocks and generates the bullets
+// displays the rock counter
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -105,8 +121,10 @@ function draw() {
   bullets.forEach((bullet) => {
     ctx.fillRect(bullet.x, bullet.y, 4, 10);
   });
+  displayRockCounter();
 }
 
+// Generates rocks at random positions
 function generateRocks() {
   for (let i = 0; i < numRocks; i++) {
     rocks.push({
@@ -118,6 +136,7 @@ function generateRocks() {
   }
 }
 
+// Updates the game state and renders the game
 let running = true;
 function gameLoop() {
   if (!running) {
@@ -131,11 +150,13 @@ function gameLoop() {
   requestAnimationFrame(gameLoop);
 }
 
+// Stops the game
 function stopGame() {
   running = false;
   bullets = [];
 }
 
+// Draws the game over screen
 function drawGameOver() {
   ctx.fillStyle = "rgba(0,0,0,0.7)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
