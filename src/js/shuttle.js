@@ -4,6 +4,9 @@ const ctx = canvas.getContext("2d");
 const shuttle = new Image();
 shuttle.src = "../images/spaceShuttle.png";
 
+const rockImg = new Image();
+rockImg.src = "../images/rock.png";
+
 let shuttleX = 700;
 let shuttleY = 1000;
 const shuttleWidth = 100;
@@ -110,9 +113,9 @@ function draw() {
     ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, 4, 4);
   }
 
-  ctx.fillStyle = "blue";
+  
   for (let rock of rocks) {
-    ctx.fillRect(rock.x, rock.y, rock.size, rock.size);
+    ctx.drawImage(rockImg, rock.x, rock.y, rock.size, rock.size);
   }
 
   ctx.drawImage(shuttle, shuttleX, shuttleY, shuttleWidth, shuttleHeight);
