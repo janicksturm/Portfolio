@@ -44,6 +44,7 @@ function isColliding(a, b) {
   );
 }
 
+// Displays the number of rocks remaining
 function displayRockCounter() {
   ctx.fillStyle = "white";
   ctx.font = "24px Arial";
