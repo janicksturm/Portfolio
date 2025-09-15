@@ -11,7 +11,11 @@ function processPicture(data) {
     const picSource = document.getElementById("picSource");
     const pic = document.createElement("img");
 
-    pic.setAttribute("src", data.hdurl);
+    console.log(data);
+
+    let picSrc = data.hdurl ? data.hdurl : "../images/notfound.png";
+
+    pic.setAttribute("src", picSrc);
     pic.setAttribute("height", 500);
     pic.setAttribute("weight", 500);
 
