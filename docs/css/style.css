@@ -3,6 +3,14 @@
         font-family: Helvetica, sans-serif;
         background-color: rgb(180, 180, 180);
     }
+
+    footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+    }
 }
 
 @media screen and (min-width: 400px) {
@@ -31,14 +39,6 @@
     nav li a {
         text-decoration: none;
         color: #000;
-    }
-    
-    footer {
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        text-align: center;
     }
 }
 
@@ -73,11 +73,6 @@
     }
 
     footer {
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        text-align: center;
         font-size: 10px;
     }
 }
