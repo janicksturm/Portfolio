@@ -1,0 +1,30 @@
+body {
+  background: white;
+}
+
+main {
+  margin: 0 auto;
+  background-color: lightgray;
+  max-width: 95%;
+  height: 98dvh;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.32);
+  border-radius: 3%;
+}
+
+h1 {
+  text-align: center;
+  padding-top: 2%;
+}
+
+#basic-informations {
+  background-color: gray;
+  text-align: center;
+  border: solid 1px;
+  border-radius: 5%;
+  width: 25%;
+  height: 20%;
+  position: absolute;
+  left: 5%;
+  margin-top: 1.5%;
+  padding-top: 2%;
+}
