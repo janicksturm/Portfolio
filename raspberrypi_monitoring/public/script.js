@@ -29,8 +29,40 @@ async function main() {
         console.error("Fehler beim Laden der Daten: ", error);
     }
 }
+const cpx = document.getElementById("cpuChart");
+const cpuChart = new Chart(cpx, {
+        type:"line",
+        data:{
+            labels: [],
+            datasets: [{
+                label: "CPU Usage (%)",
+                borderColor: "black",
+                backgroundColor: "black",
+                data: []
+            }]
+        }
+    });
+
+async function updateCpuChart() {
+    const res = await fetch('http://localhost:8000/status');
+    const data = await res.json();
+
+    const now = new Date().toLocaleTimeString();
+
+    cpuChart.data.labels.push(now);
+    cpuChart.data.datasets[0].data.push(data.cpu_percent);
+
+    if (cpuChart.data.labels.length > 20) {
+        cpuChart.data.labels.shift();
+        cpuChart.data.datasets[0].data.shift();
+    }
+
+    cpuChart.update();
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     main();
+    updateCpuChart();
     setInterval(main, 2000);
+    setInterval(updateCpuChart, 1000);
 });
