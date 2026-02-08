@@ -29,7 +29,7 @@ h1 {
   padding-top: 2%;
 }
 
-#cpu, canvas #cpuChart {
+#cpu {
   background-color: gray;
   text-align: center;
   border: solid 1px;
