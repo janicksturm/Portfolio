@@ -18,10 +18,14 @@ async function main() {
         const disk = document.createElement("p");
         const uptime = document.createElement("p");
 
+         const secToDays = secondsToUptime(data.uptime_seconds);
+
         cpu.innerText = "CPU: " +  data.cpu_percent + "%";
-        ram.innerText = "RAM: " + data.ram_percent + "%"
-        disk.innerText = "Disk: " + data.disk_percent + "%"
-        uptime.innerText = "Uptime: " + data.uptime_seconds + " Seconds"
+        ram.innerText = "RAM: " + data.ram_percent + "%";
+        disk.innerText = "Disk: " + data.disk_percent + "%";
+        uptime.innerText = "Uptime: " + secToDays.days + " days " + secToDays.minutes + " Minutes";
+
+
 
         contentBox.appendChild(cpu);
         contentBox.appendChild(ram);
@@ -30,6 +34,13 @@ async function main() {
     } catch(error) {
         console.error("Fehler beim Laden der Daten: ", error);
     }
+}
+
+function secondsToUptime(seconds) {
+  const days = Math.floor(seconds / 86400);
+  const minutes = Math.floor((seconds % 3600) / 60);
+
+  return { days, minutes };
 }
 
 const cpuChart = new Chart(cpx, {
