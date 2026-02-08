@@ -8,7 +8,7 @@ async function loadData() {
     return jsonData;
 }
 
-async function main() {
+async function displayBasicInformations() {
     try {
         const data = await loadData();
         contentBox.innerHTML = "";
@@ -24,8 +24,6 @@ async function main() {
         ram.innerText = "RAM: " + data.ram_percent + "%";
         disk.innerText = "Disk: " + data.disk_percent + "%";
         uptime.innerText = "Uptime: " + secToDays.days + " days " + secToDays.minutes + " Minutes";
-
-
 
         contentBox.appendChild(cpu);
         contentBox.appendChild(ram);
@@ -70,8 +68,7 @@ const ramChart = new Chart(cpxRam, {
     });
 
 async function updateCharts() {
-    const res = await fetch('http://localhost:8000/status');
-    const data = await res.json();
+    const data = await loadData();
 
     const now = new Date().toLocaleTimeString();
 
@@ -96,8 +93,8 @@ async function updateCharts() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    main();
+    displayBasicInformations();
     updateCharts();
-    setInterval(main, 2000);
+    setInterval(displayBasicInformations, 2000);
     setInterval(updateCharts, 1000);
 });
