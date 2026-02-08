@@ -1,10 +1,12 @@
+const contentBox = document.getElementById("basic-informations");
+const cpx = document.getElementById("cpuChart");
+const cpxRam = document.getElementById("ramChart");
 
 async function loadData() {
     const data = await fetch("http://localhost:8000/status");
     const jsonData = await data.json();
     return jsonData;
 }
-const contentBox = document.getElementById("basic-informations");
 
 async function main() {
     try {
@@ -29,7 +31,7 @@ async function main() {
         console.error("Fehler beim Laden der Daten: ", error);
     }
 }
-const cpx = document.getElementById("cpuChart");
+
 const cpuChart = new Chart(cpx, {
         type:"line",
         data:{
@@ -43,26 +45,48 @@ const cpuChart = new Chart(cpx, {
         }
     });
 
-async function updateCpuChart() {
+const ramChart = new Chart(cpxRam, {
+        type:"line",
+        data:{
+            labels: [],
+            datasets: [{
+                label: "RAM Usage (%)",
+                borderColor: "black",
+                backgroundColor: "black",
+                data: []
+            }]
+        }
+    });
+
+async function updateCharts() {
     const res = await fetch('http://localhost:8000/status');
     const data = await res.json();
 
     const now = new Date().toLocaleTimeString();
 
     cpuChart.data.labels.push(now);
+    ramChart.data.labels.push(now);
+
     cpuChart.data.datasets[0].data.push(data.cpu_percent);
+    ramChart.data.datasets[0].data.push(data.ram_percent);
 
     if (cpuChart.data.labels.length > 20) {
         cpuChart.data.labels.shift();
         cpuChart.data.datasets[0].data.shift();
     }
 
+    if (ramChart.data.labels.length > 20) {
+        ramChart.data.labels.shift();
+        ramChart.data.datasets[0].data.shift();
+    }
+
     cpuChart.update();
+    ramChart.update();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     main();
-    updateCpuChart();
+    updateCharts();
     setInterval(main, 2000);
-    setInterval(updateCpuChart, 1000);
+    setInterval(updateCharts, 1000);
 });
