@@ -21,3 +21,12 @@ def status():
         "disk_percent": psutil.disk_usage('/').percent,
         "uptime_seconds": round(time.time() - psutil.boot_time())
     }
+
+@app.get("/disk")
+def getDiskUsage():
+    disk = psutil.disk_usage('/')
+    return {
+        "total_space": (disk.total / (1000**3)),
+        "used_space": (disk.used / (1000**3)),
+        "free_space": (disk.free / (1000**3))
+    }

@@ -42,6 +42,20 @@ h1 {
   padding-top: 2%;
 }
 
+#disk {
+  background-color: gray;
+  text-align: center;
+  border: solid 1px;
+  border-radius: 5%;
+  width: 25%;
+  height: 50%;
+  position: absolute;
+  left: 5%;
+  bottom: 7%;
+  margin-top: 1.5%;
+  padding-top: 2%;
+}
+
 #ram {
   background-color: gray;
   text-align: center;

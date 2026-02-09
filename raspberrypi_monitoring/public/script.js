@@ -1,11 +1,58 @@
 const contentBox = document.getElementById("basic-informations");
 const cpx = document.getElementById("cpuChart");
 const cpxRam = document.getElementById("ramChart");
+const cpxDisk = document.getElementById("diskChart");
 
 async function loadData() {
     const data = await fetch("http://localhost:8000/status");
     const jsonData = await data.json();
     return jsonData;
+}
+
+async function loadDiskData() {
+    const data = await fetch("http://localhost:8000/disk");
+    const jsonData = await data.json();
+    return jsonData;
+}
+
+const diskChart = new Chart(cpxDisk, {
+        type:"pie",
+        data:{
+            labels: [],
+            datasets: [{
+                borderColor: ["red", "green"],
+                backgroundColor: ["red", "green"],
+                data: []
+            }]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: "Disk Space"
+                }
+            }
+        }
+    });
+
+async function displayDisk() {
+    try {
+        const data = await loadDiskData();
+
+        const used = data.used_space;
+        const free = data.free_space;
+
+        diskChart.data.labels = ["Used (GB)", "Free (GB)"];
+
+        diskChart.data.datasets[0].data = [
+            used,
+            free
+        ];
+
+        diskChart.update();
+    } catch (error) {
+        console.error("Fehler beim Laden der Daten: ", error);
+    }
 }
 
 async function displayBasicInformations() {
@@ -95,6 +142,8 @@ async function updateCharts() {
 document.addEventListener("DOMContentLoaded", () => {
     displayBasicInformations();
     updateCharts();
+    displayDisk();
     setInterval(displayBasicInformations, 2000);
     setInterval(updateCharts, 1000);
+    setInterval(displayDisk, 5000)
 });
