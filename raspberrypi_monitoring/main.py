@@ -30,3 +30,9 @@ def getDiskUsage():
         "used_space": (disk.used / (1000**3)),
         "free_space": (disk.free / (1000**3))
     }
+
+@app.get("/processes")
+def processes():
+    processes = [proc.info for proc in psutil.process_iter(['pid', 'name', 'memory_percent'])]
+    processes.sort(key=lambda x: x['memory_percent'], reverse=True)
+    return processes[:10]
