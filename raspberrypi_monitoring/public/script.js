@@ -144,6 +144,6 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCharts();
     displayDisk();
     setInterval(displayBasicInformations, 2000);
-    setInterval(updateCharts, 1000);
+    setInterval(updateCharts, 3000);
     setInterval(displayDisk, 5000)
 });
