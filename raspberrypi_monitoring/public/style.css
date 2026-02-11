@@ -16,6 +16,10 @@ h1 {
   padding-top: 2%;
 }
 
+h2 {
+  font-size: 23px;
+}
+
 #basic-informations {
   background-color: gray;
   text-align: center;
