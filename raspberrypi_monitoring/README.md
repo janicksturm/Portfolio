@@ -22,3 +22,9 @@ The project focuses on backend development, API design, and deployment on embedd
 - **System Metrics:** psutil
 - **Frontend:** HTML, CSS, JavaScript
 - **Deployment:** Raspberry Pi
+
+## Screenshot
+
+![Dashboard Screenshot](images/dashboard.png)
+
+> Example of the web interface displaying top processes and system metrics.
