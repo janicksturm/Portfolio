@@ -2,6 +2,7 @@ const contentBox = document.getElementById("basic-informations");
 const cpx = document.getElementById("cpuChart");
 const cpxRam = document.getElementById("ramChart");
 const cpxDisk = document.getElementById("diskChart");
+const processBlock = document.getElementById("processBlock");
 
 async function loadData() {
     const data = await fetch("http://localhost:8000/status");
@@ -11,6 +12,12 @@ async function loadData() {
 
 async function loadDiskData() {
     const data = await fetch("http://localhost:8000/disk");
+    const jsonData = await data.json();
+    return jsonData;
+}
+
+async function loadProcesses() {
+    const data = await fetch("http://localhost:8000/processes")
     const jsonData = await data.json();
     return jsonData;
 }
@@ -51,6 +58,26 @@ async function displayDisk() {
 
         diskChart.update();
     } catch (error) {
+        console.error("Fehler beim Laden der Daten: ", error);
+    }
+}
+
+async function displayProcesses() {
+
+    const list = document.querySelector("#processList");
+    if (list) list.remove();
+
+    const unorderedList = document.createElement("ul");
+    unorderedList.setAttribute("id", "processList");
+    try {
+        const data = await loadProcesses();
+        for (let i = 0; i < data.length; i++) {
+            const listElement = document.createElement("li");
+            listElement.innerText = "ID:" + data[i].pid + ". " + "Process: " + data[i].name + " - Memory: " + Math.round(data[i].memory_percent);
+            unorderedList.appendChild(listElement);
+        }
+        processBlock.appendChild(unorderedList);
+    } catch(error) {
         console.error("Fehler beim Laden der Daten: ", error);
     }
 }
@@ -143,7 +170,9 @@ document.addEventListener("DOMContentLoaded", () => {
     displayBasicInformations();
     updateCharts();
     displayDisk();
+    displayProcesses();
     setInterval(displayBasicInformations, 2000);
     setInterval(updateCharts, 3000);
-    setInterval(displayDisk, 5000)
+    setInterval(displayDisk, 5000);
+    setInterval(displayProcesses, 10000);
 });

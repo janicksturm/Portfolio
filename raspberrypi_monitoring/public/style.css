@@ -56,6 +56,29 @@ h1 {
   padding-top: 2%;
 }
 
+#processBlock {
+  background-color: gray;
+  text-align: center;
+  border: solid 1px;
+  border-radius: 5%;
+  width: 45%;
+  height: 50%;
+  position: absolute;
+  left: 40%;
+  bottom: 7%;
+  margin-top: 1.5%;
+  padding-top: 2%;
+}
+
+#processList {
+  margin: 6% auto;
+  list-style: none;
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
 #ram {
   background-color: gray;
   text-align: center;
